@@ -1,79 +1,58 @@
-# Text-Log Sanitization
+# Log Hygiene Sanitizer
 
-Before dumping logs or long text files into online tools, sanitize them locally so you do not leak company names, IP addresses, hostnames, usernames, domains, URLs, hashes, GUIDs, MAC addresses, or email addresses.
+Log Hygiene Sanitizer is a static Cloudflare Pages app that sanitizes logs entirely in the browser. It is designed for safely preparing logs before sharing them with support teams, ticketing systems, chat tools, or AI assistants.
 
-This repository provides two offline sanitizers:
+## Privacy and deployment model
+
+- Static frontend only.
+- No backend.
+- No Cloudflare Worker.
+- No Pages Function.
+- No external API calls.
+- Sanitization runs locally in the browser.
+- The Cloudflare Pages `_headers` file sets a strict Content Security Policy, including `connect-src 'none'`, so browser network connections are blocked by policy.
+
+## What it detects
+
+The browser app follows the same heuristic categories as the original Python and PowerShell sanitizers in `scripts/`:
+
+- URLs.
+- Email addresses.
+- Windows `DOMAIN\username` identities.
+- IPv4 and IPv6 addresses.
+- MAC addresses.
+- Domain names.
+- Common hostnames such as `SRV-APP01` or `DESKTOP-ABC123`.
+- GUIDs.
+- 32- to 64-character hexadecimal hashes.
+
+Detected values are replaced with stable fake values, meaning the same original value maps to the same replacement throughout the output.
+
+## Local development
+
+```bash
+npm run build
+```
+
+The build command validates `app.js`, verifies the required static files exist, and copies the Cloudflare Pages assets to `dist/`.
+
+You can also open `index.html` directly in a browser for local testing.
+
+## Cloudflare Pages settings
+
+Use these settings when creating the Pages project:
+
+- Framework preset: `None`.
+- Build command: `npm run build`.
+- Build output directory: `dist`.
+- Root directory: repository root.
+- Environment variables: none required.
+
+## Original CLI scripts
+
+The repository still includes the original offline CLI sanitizers:
 
 - `scripts/log_sanitizer.py` for Python 3.
 - `scripts/Log-Sanitizer.ps1` for PowerShell.
 
-Both scripts keep the original log context intact while replacing selected sensitive values with stable fake values. Stable replacement means the same original value maps to the same fake value throughout the output file.
-
-## Python usage
-
-Preview findings interactively and choose which categories to randomize:
-
-```bash
-python3 scripts/log_sanitizer.py input.log
-```
-
-Write to a custom output path:
-
-```bash
-python3 scripts/log_sanitizer.py input.log --output sanitized.log
-```
-
-Sanitize all detected categories without prompts and save the replacement map:
-
-```bash
-python3 scripts/log_sanitizer.py input.log --categories all --save-map
-```
-
-Sanitize only specific categories:
-
-```bash
-python3 scripts/log_sanitizer.py input.log --categories ipv4,domain,email
-```
-
-## PowerShell usage
-
-Preview findings interactively and choose which categories to randomize:
-
-```powershell
-pwsh ./scripts/Log-Sanitizer.ps1 ./input.log
-```
-
-Write to a custom output path:
-
-```powershell
-pwsh ./scripts/Log-Sanitizer.ps1 ./input.log -OutputPath ./sanitized.log
-```
-
-Sanitize all detected categories without prompts and save the replacement map:
-
-```powershell
-pwsh ./scripts/Log-Sanitizer.ps1 ./input.log -Categories all -SaveMap
-```
-
-Sanitize only specific categories:
-
-```powershell
-pwsh ./scripts/Log-Sanitizer.ps1 ./input.log -Categories ipv4,domain,email
-```
-
-## Detected categories
-
-The scripts detect and can replace:
-
-- IPv4 and IPv6 addresses.
-- URLs and domain names.
-- Email addresses and UPN-style usernames.
-- Windows `DOMAIN\username` identities.
-- Common hostname formats such as `SRV-APP01` or `DESKTOP-ABC123`.
-- MAC addresses.
-- GUIDs.
-- 32- to 64-character hexadecimal hashes.
-
-## Notes
-
-These scripts are heuristic hygiene tools, not formal data-loss-prevention products. Review sanitized output before sharing it externally, especially if your logs contain unusual identifiers, proprietary naming conventions, or secrets with formats not listed above.
+Those scripts were inspected while creating the browser version and were not modified.

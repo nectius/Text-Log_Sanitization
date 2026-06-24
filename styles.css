@@ -1,0 +1,193 @@
+:root {
+  color-scheme: light dark;
+  --bg: #09111f;
+  --panel: #111c2e;
+  --panel-strong: #17243a;
+  --text: #eef5ff;
+  --muted: #aebbd0;
+  --accent: #5eead4;
+  --accent-strong: #14b8a6;
+  --border: #2d3c55;
+  --danger: #fda4af;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgba(20, 184, 166, 0.24), transparent 32rem),
+    linear-gradient(135deg, #08111f 0%, #0f172a 48%, #111827 100%);
+  color: var(--text);
+}
+
+button, input, textarea { font: inherit; }
+
+button {
+  border: 0;
+  border-radius: 0.8rem;
+  cursor: pointer;
+  font-weight: 700;
+  padding: 0.8rem 1rem;
+  transition: transform 140ms ease, background 140ms ease, border-color 140ms ease;
+}
+
+button:hover { transform: translateY(-1px); }
+button:disabled { cursor: not-allowed; opacity: 0.55; transform: none; }
+
+button.primary, button:not(.secondary):not(.ghost) {
+  background: var(--accent);
+  color: #042f2e;
+}
+
+button.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--muted);
+}
+
+.shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 3rem 0;
+}
+
+.hero { margin-bottom: 1.5rem; }
+
+.eyebrow {
+  color: var(--accent);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin: 0 0 0.4rem;
+  text-transform: uppercase;
+}
+
+h1, h2 { margin: 0; line-height: 1.05; }
+h1 { font-size: clamp(2.4rem, 6vw, 5.5rem); }
+h2 { font-size: 1.25rem; }
+
+.lede {
+  color: var(--muted);
+  font-size: 1.1rem;
+  line-height: 1.7;
+  max-width: 760px;
+}
+
+.panel {
+  background: rgba(17, 28, 46, 0.9);
+  border: 1px solid rgba(174, 187, 208, 0.18);
+  border-radius: 1.4rem;
+  box-shadow: var(--shadow);
+  margin: 1rem 0;
+  padding: 1.25rem;
+}
+
+.grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1fr) 360px;
+}
+
+.input-stack, .controls { display: flex; flex-direction: column; gap: 0.9rem; }
+
+.label { color: var(--muted); font-weight: 700; }
+
+input[type="file"] {
+  background: var(--panel-strong);
+  border: 1px dashed var(--border);
+  border-radius: 0.8rem;
+  color: var(--muted);
+  padding: 0.9rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 360px;
+  resize: vertical;
+  background: #07101f;
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  color: var(--text);
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+#output-text { min-height: 280px; }
+
+.control-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.control-row.compact { justify-content: flex-end; }
+
+.status {
+  background: rgba(94, 234, 212, 0.1);
+  border: 1px solid rgba(94, 234, 212, 0.2);
+  border-radius: 0.8rem;
+  color: var(--muted);
+  padding: 0.8rem;
+}
+
+.findings-card {
+  background: rgba(7, 16, 31, 0.55);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.findings { display: grid; gap: 0.75rem; margin-top: 0.8rem; }
+.findings.empty { color: var(--muted); }
+
+.finding {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border);
+  border-radius: 0.8rem;
+  padding: 0.75rem;
+}
+
+.finding label {
+  align-items: center;
+  display: flex;
+  font-weight: 800;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.finding small {
+  color: var(--muted);
+  display: block;
+  margin-top: 0.35rem;
+  overflow-wrap: anywhere;
+}
+
+.output-header {
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.note {
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: center;
+}
+
+code {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 0.35rem;
+  padding: 0.1rem 0.3rem;
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .output-header { align-items: flex-start; flex-direction: column; }
+  .control-row.compact { justify-content: flex-start; }
+}
