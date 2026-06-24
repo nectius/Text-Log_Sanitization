@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Log Hygiene Sanitizer locally detects and replaces sensitive log values in your browser." />
+    <title>Log Hygiene Sanitizer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero" aria-labelledby="app-title">
+        <p class="eyebrow">Frontend-only • Offline-capable • No network calls</p>
+        <h1 id="app-title">Log Hygiene Sanitizer</h1>
+        <p class="lede">
+          Paste logs or load a text file, choose the detected categories to sanitize, and export a cleaned copy.
+          Everything runs locally in this browser tab.
+        </p>
+      </section>
+
+      <section class="panel grid" aria-label="Input and controls">
+        <div class="input-stack">
+          <label for="file-input" class="label">Load a log or text file</label>
+          <input id="file-input" type="file" accept=".log,.txt,.json,.csv,.xml,.yaml,.yml,text/*,application/json" />
+
+          <label for="source-text" class="label">Original text</label>
+          <textarea id="source-text" spellcheck="false" placeholder="Paste logs here..."></textarea>
+        </div>
+
+        <aside class="controls" aria-label="Sanitization controls">
+          <div class="control-row">
+            <button id="detect-button" type="button">Detect values</button>
+            <button id="select-all-button" type="button" class="secondary">Select all</button>
+            <button id="clear-button" type="button" class="ghost">Clear</button>
+          </div>
+
+          <div id="status" class="status" role="status" aria-live="polite">Paste text or load a file to begin.</div>
+
+          <div class="findings-card">
+            <h2>Detected categories</h2>
+            <div id="findings" class="findings empty">No findings yet.</div>
+          </div>
+
+          <button id="sanitize-button" type="button" class="primary">Sanitize selected categories</button>
+        </aside>
+      </section>
+
+      <section class="panel" aria-labelledby="output-title">
+        <div class="output-header">
+          <div>
+            <p class="eyebrow">Sanitized output</p>
+            <h2 id="output-title">Cleaned text</h2>
+          </div>
+          <div class="control-row compact">
+            <button id="copy-button" type="button" class="secondary">Copy</button>
+            <button id="download-button" type="button" class="secondary">Download .txt</button>
+          </div>
+        </div>
+        <textarea id="output-text" spellcheck="false" readonly placeholder="Sanitized text will appear here."></textarea>
+      </section>
+
+      <section class="note" aria-label="Privacy note">
+        <strong>Privacy note:</strong> This app does not send data anywhere. Its security policy blocks browser connections with <code>connect-src 'none'</code>.
+      </section>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
