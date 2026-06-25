@@ -80,7 +80,7 @@ function renderFindings(findings) {
     label.append(checkbox, name, count);
 
     const examples = document.createElement("small");
-    examples.textContent = `Examples: ${values.slice(0, 4).join(", ")}`;
+    examples.textContent = `Found: ${values.slice(0, 4).join(", ")}`;
 
     item.append(label, examples);
     findingsContainer.append(item);
