@@ -4,7 +4,7 @@
   "private": true,
   "description": "Static Cloudflare Pages app for local browser-based log sanitization.",
   "scripts": {
-    "build": "node --check app.js && node -e \"const fs=require('fs'); for (const file of ['index.html','styles.css','app.js','_headers']) fs.accessSync(file); fs.mkdirSync('dist', {recursive: true}); for (const file of ['index.html','styles.css','app.js','_headers']) fs.copyFileSync(file, 'dist/' + file);\""
+    "build": "node --check app.js && node -e \"const fs=require('fs'); const files=['index.html','styles.css','app.js','_headers']; for (const file of files) fs.accessSync(file); fs.rmSync('dist', {recursive: true, force: true}); fs.mkdirSync('dist/examples', {recursive: true}); for (const file of files) fs.copyFileSync(file, 'dist/' + file); fs.cpSync('examples', 'dist/examples', {recursive: true});\""
   },
   "keywords": [
     "logs",
